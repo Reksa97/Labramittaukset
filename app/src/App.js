@@ -13,7 +13,8 @@ class App extends Component {
             newName: '',
             newUnit: '',
             newRefLow: '',
-            newRefHigh: ''
+            newRefHigh: '',
+            editMeasurementId: null
         }
         console.log('constructor')
     }
@@ -30,12 +31,44 @@ class App extends Component {
 
     submitMeasurementForm = async (event) => {
         event.preventDefault()
-        const measurements = this.state.measurements
+
         const name = this.state.newName
         const unit = this.state.newUnit
         const refLow = this.state.newRefLow
         const refHigh = this.state.newRefHigh
 
+        const editing = (this.state.editMeasurementId !== null)
+        if (editing) {
+            const id = this.state.editMeasurementId
+            this.updateMeasurement(id, name, unit, refLow, refHigh)
+        } else {
+            this.createMeasurement(name, unit, refLow, refHigh)
+        }
+
+    }
+
+    updateMeasurement = async (id, name, unit, refLow, refHigh) => {
+        await measurementService.update(id, { name, unit, refLow, refHigh })
+
+        this.setState({
+            measurements: this.state.measurements.map(measurement => {
+                if (measurement.id === id) {
+                    measurement.name = name
+                    measurement.unit = unit
+                    measurement.refLow = refLow
+                    measurement.refHigh = refHigh
+                }
+                return measurement
+            }),
+            editMeasurementId: null,
+            newName: '',
+            newUnit: '',
+            newRefHigh: '',
+            newRefLow: ''
+        })
+    }
+
+    createMeasurement = async (name, unit, refLow, refHigh) => {
         const measurementObject = {
             name: name,
             unit: unit,
@@ -50,8 +83,9 @@ class App extends Component {
             refHigh: response.data.refHigh,
             id: response.data.id
         }
-        await this.setState({
-            measurements: measurements.concat(newMeasurement),
+        this.setState({
+            measurements: this.state.measurements.concat(newMeasurement),
+            editMeasurementId: null,
             newName: '',
             newUnit: '',
             newRefLow: '',
@@ -66,9 +100,20 @@ class App extends Component {
                 this.setState({
                     measurements: this.state.measurements.filter(measurement => measurement.id !== id)
                 })
-
-                const message = `Mittaus ${id} poistettiin`
             }
+        }
+    }
+
+    editMeasurementClick = (id) => {
+        return () => {
+            const m = this.state.measurements.find(m => m.id === id)
+            this.setState({
+                newName: m.name,
+                newUnit: m.unit,
+                newRefLow: m.refLow,
+                newRefHigh: m.refHigh,
+                editMeasurementId: m.id
+            })
         }
     }
 
@@ -82,8 +127,10 @@ class App extends Component {
                     name={this.state.newName}
                     unit={this.state.newUnit}
                     refLow={this.state.newRefLow}
-                    refHigh={this.state.newRefHigh} />
+                    refHigh={this.state.newRefHigh}
+                    editMeasurementId={this.state.editMeasurementId} />
                 <Measurements measurements={this.state.measurements}
+                    editMeasurement={this.editMeasurementClick}
                     deleteMeasurement={this.deleteMeasurementClick} />
             </div>
         );
