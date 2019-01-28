@@ -59,6 +59,19 @@ class App extends Component {
         })
     }
 
+    deleteMeasurementClick = (id) => {
+        return async () => {
+            if (window.confirm('Poistetaanko mittaus ' + id + '?')) {
+                await measurementService.remove(id)
+                this.setState({
+                    measurements: this.state.measurements.filter(measurement => measurement.id !== id)
+                })
+
+                const message = `Mittaus ${id} poistettiin`
+            }
+        }
+    }
+
     render() {
         return (
             <div className="App">
@@ -70,7 +83,8 @@ class App extends Component {
                     unit={this.state.newUnit}
                     refLow={this.state.newRefLow}
                     refHigh={this.state.newRefHigh} />
-                <Measurements measurements={this.state.measurements} />
+                <Measurements measurements={this.state.measurements}
+                    deleteMeasurement={this.deleteMeasurementClick} />
             </div>
         );
     }

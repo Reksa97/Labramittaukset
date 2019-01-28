@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Measurements = ({ measurements }) => {
+const Measurements = ({ measurements, deleteMeasurement }) => {
     return (
         <div>
             <h2>Mittaukset</h2>
@@ -17,14 +17,16 @@ const Measurements = ({ measurements }) => {
                 </thead>
                 <tbody>
                     {measurements.map(measurement =>
-                        <Measurement key={measurement.id} measurement={measurement} />)}
+                        <Measurement key={measurement.id} 
+                            measurement={measurement}
+                            deleteMeasurement={deleteMeasurement} />)}
                 </tbody>
             </table>
         </div>
     )
 }
 
-const Measurement = ({ measurement }) => {
+const Measurement = ({ measurement, deleteMeasurement }) => {
     return (
         <tr>
             <td>{measurement.id}</td>
@@ -32,6 +34,9 @@ const Measurement = ({ measurement }) => {
             <td>{measurement.unit}</td>
             <td>{measurement.refLow}</td>
             <td>{measurement.refHigh}</td>
+            <td>
+                <button onClick={deleteMeasurement(measurement.id)}>POISTA</button>
+            </td>
         </tr>
     )
 }
