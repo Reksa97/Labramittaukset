@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Measurements from './components/Measurement'
+import Measurements from './components/Measurements'
 import MeasurementForm from './components/MeasurementForm'
 import measurementService from './services/measurements'
 
