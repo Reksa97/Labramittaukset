@@ -9,7 +9,7 @@ const measurement = {
     refHigh: '145',
     id: 1
 }
-describe.only('<Measurement />', () => {
+describe('<Measurement />', () => {
     let measurementComponent, mockEditHandler, mockDeleteHandler
     beforeEach(() => {
         mockEditHandler = jest.fn()
