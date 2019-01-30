@@ -3,6 +3,7 @@ import './App.css';
 import Measurements from './components/Measurements'
 import MeasurementForm from './components/MeasurementForm'
 import measurementService from './services/measurements'
+import { Container } from 'semantic-ui-react'
 
 class App extends Component {
 
@@ -119,7 +120,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
+            <Container>
                 <h1>Labramittaukset</h1>
                 <MeasurementForm
                     handleFieldChange={this.handleFieldChange}
@@ -132,7 +133,7 @@ class App extends Component {
                 <Measurements measurements={this.state.measurements}
                     editMeasurement={this.editMeasurementClick}
                     deleteMeasurement={this.deleteMeasurementClick} />
-            </div>
+            </Container>
         );
     }
 }
