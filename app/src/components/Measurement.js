@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button, Icon } from 'semantic-ui-react'
 
 const Measurement = ({ measurement, deleteMeasurement, editMeasurement }) => {
     return (
@@ -9,10 +10,16 @@ const Measurement = ({ measurement, deleteMeasurement, editMeasurement }) => {
             <td>{measurement.refLow}</td>
             <td>{measurement.refHigh}</td>
             <td>
-                <button className="edit" onClick={editMeasurement(measurement.id)}>Muokkaa</button>
+                <Button icon className="edit"
+                    onClick={editMeasurement(measurement.id)}>
+                    <Icon name='edit' />
+                </Button>
             </td>
             <td>
-                <button className="delete" onClick={deleteMeasurement(measurement.id)}>POISTA</button>
+                <Button icon className="delete" type="delete"
+                    onClick={deleteMeasurement(measurement.id)}>
+                    <Icon name='trash' />
+                </Button>
             </td>
         </tr>
     )

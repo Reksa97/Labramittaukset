@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
 import Measurements from './components/Measurements'
 import MeasurementForm from './components/MeasurementForm'
 import measurementService from './services/measurements'
-import { Container } from 'semantic-ui-react'
+import { Container, Divider, Header } from 'semantic-ui-react'
 
 class App extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -21,16 +19,16 @@ class App extends Component {
     }
 
     async componentDidMount() {
+        console.log('did mount')
         const response = await measurementService.getAll()
         await this.setState({ measurements: response })
-        console.log('did mount')
     }
 
     handleFieldChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
     }
 
-    submitMeasurementForm = async (event) => {
+    submitMeasurementForm = (event) => {
         event.preventDefault()
 
         const name = this.state.newName
@@ -117,12 +115,26 @@ class App extends Component {
             })
         }
     }
+    
+    cancelEditClick = () => {
+        return () => {
+            this.setState({
+                newName: '',
+                newUnit: '',
+                newRefLow: '',
+                newRefHigh: '',
+                editMeasurementId: null
+            })
+        }
+    }
 
     render() {
         return (
             <Container>
-                <h1>Labramittaukset</h1>
+                <Header as='h1' style={{marginTop: '1em'}} textAlign='center'>Labramittaukset</Header>
+                <Divider />
                 <MeasurementForm
+                    cancelEdit={this.cancelEditClick}
                     handleFieldChange={this.handleFieldChange}
                     submitMeasurementForm={this.submitMeasurementForm}
                     name={this.state.newName}

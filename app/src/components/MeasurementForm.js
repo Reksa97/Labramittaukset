@@ -1,70 +1,71 @@
 import React from 'react'
+import { Form, Button, Segment, Header, Divider } from 'semantic-ui-react'
 
-const MeasurementForm = ({ handleFieldChange, submitMeasurementForm, name, unit, refLow, refHigh, editMeasurementId }) => {
+const MeasurementForm = ({ cancelEdit, handleFieldChange, submitMeasurementForm, name, unit, refLow, refHigh, editMeasurementId }) => {
     const editing = (editMeasurementId !== null)
 
     if (editing) {
         return (
-            <div>
-                <h3>{`Muokkaa mittausta ${editMeasurementId}`}</h3>
-                <form onSubmit={submitMeasurementForm}>
-                    <div>
-                        nimi:
+            <Segment stacked>
+                <Header size='large'>{`Muokkaa mittausta ${editMeasurementId}`}</Header>
+                <Divider />
+                <Form onSubmit={submitMeasurementForm}>
+                    <Form.Field>
+                        <label>Nimi:</label>
                         <input value={name} name='newName'
-                            onChange={handleFieldChange} />
-                    </div>
-                    <div>
-                        mittayksikkö:
+                            onChange={handleFieldChange}
+                            placeholder='nimi' />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Mittayksikkö:</label>
                         <input value={unit} name='newUnit'
                             onChange={handleFieldChange} />
-                    </div>
-                    <div>
-                        viitearvo (ala):
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Viitearvo (ala):</label>
                         <input value={refLow} name='newRefLow'
                             onChange={handleFieldChange} />
-                    </div>
-                    <div>
-                        viitearvo (ylä):
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Viitearvo (ylä):</label>
                         <input value={refHigh} name='newRefHigh'
                             onChange={handleFieldChange} />
-                    </div>
-                    <div>
-                        <button type="submit">Muokkaa</button>
-                    </div>
-                </form>
-            </div >
+                    </Form.Field>
+                    <Button type="submit">Muokkaa</Button>
+                    <Button onClick={cancelEdit}>Peru</Button>
+                </Form>
+            </Segment>
         )
     }
 
     return (
-        <div>
-            <h3>Lisää uusi mittaus</h3>
-            <form onSubmit={submitMeasurementForm}>
-                <div>
-                    nimi:
-                        <input value={name} name='newName'
+        <Segment>
+            <Header size='large'>Lisää uusi mittaus</Header>
+            <Divider />
+            <Form onSubmit={submitMeasurementForm}>
+                <Form.Field>
+                    <label>Nimi:</label>
+                    <input value={name} name='newName'
                         onChange={handleFieldChange} />
-                </div>
-                <div>
-                    mittayksikkö:
-                        <input value={unit} name='newUnit'
+                </Form.Field>
+                <Form.Field>
+                    <label>Mittayksikkö:</label>
+                    <input value={unit} name='newUnit'
                         onChange={handleFieldChange} />
-                </div>
-                <div>
-                    viitearvo (ala):
-                        <input value={refLow} name='newRefLow'
+                </Form.Field>
+                <Form.Field>
+                    <label>Viitearvo (ala):</label>
+                    <input value={refLow} name='newRefLow'
                         onChange={handleFieldChange} />
-                </div>
-                <div>
-                    viitearvo (ylä):
-                        <input value={refHigh} name='newRefHigh'
+                </Form.Field>
+                <Form.Field>
+                    <label>Viitearvo (ylä):</label>
+                    <input value={refHigh} name='newRefHigh'
                         onChange={handleFieldChange} />
-                </div>
-                <div>
-                    <button type="submit">Lisää</button>
-                </div>
-            </form>
-        </div >
+                </Form.Field>
+                <Button type="submit">Lisää</Button>
+            </Form>
+        </Segment>
     )
 }
 export default MeasurementForm

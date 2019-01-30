@@ -38,7 +38,7 @@ describe('<Measurements />', () => {
         expect(measurementsComponent.find('Measurement').length).toEqual(3)
     })
 
-    it('has column for all measurement fields', () => {
-        expect(measurementsComponent.find('th').length).toEqual(5)
+    it('has column for all measurement fields and buttons', () => {
+        expect(measurementsComponent.find('th').length).toEqual(7)
     })
 })
