@@ -1,8 +1,9 @@
 import React from 'react'
-import { Form, Button, Segment, Header, Divider } from 'semantic-ui-react'
+import { Form, Button, Segment, Header, Divider, Label } from 'semantic-ui-react'
 
 const MeasurementForm = ({ cancelEdit, handleFieldChange, submitMeasurementForm, name, unit, refLow, refHigh, editMeasurementId }) => {
     const editing = (editMeasurementId !== null)
+    const aFieldIsEmpty = (name==='' || unit==='' || refLow==='' || refHigh==='')
 
     if (editing) {
         return (
@@ -31,7 +32,12 @@ const MeasurementForm = ({ cancelEdit, handleFieldChange, submitMeasurementForm,
                         <input value={refHigh} name='newRefHigh'
                             onChange={handleFieldChange} />
                     </Form.Field>
-                    <Button type="submit">Muokkaa</Button>
+                    {aFieldIsEmpty ?
+                        <Label pointing>
+                            Mikään kenttä ei voi olla tyhjä
+                        </Label> :
+                        <Button type="submit">Muokkaa</Button> }
+                    
                     <Button onClick={cancelEdit}>Peru</Button>
                 </Form>
             </Segment>
@@ -63,7 +69,11 @@ const MeasurementForm = ({ cancelEdit, handleFieldChange, submitMeasurementForm,
                     <input value={refHigh} name='newRefHigh'
                         onChange={handleFieldChange} />
                 </Form.Field>
-                <Button type="submit">Lisää</Button>
+                {aFieldIsEmpty ?
+                    <Label pointing>
+                        Mikään kenttä ei voi olla tyhjä
+                    </Label> :
+                    <Button type="submit">Lisää</Button> }
             </Form>
         </Segment>
     )
