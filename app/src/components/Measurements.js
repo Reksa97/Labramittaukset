@@ -29,4 +29,5 @@ const Measurements = ({ measurements, editMeasurement, deleteMeasurement }) => {
         </div>
     )
 }
+
 export default Measurements

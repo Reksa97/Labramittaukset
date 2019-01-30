@@ -7,6 +7,11 @@ import { Container, Divider, Header } from 'semantic-ui-react'
 class App extends Component {
     constructor(props) {
         super(props)
+        /**
+         * State stores all measurements, all fields
+         * from MeasurementForm, and id of the measurement
+         * currently being edited (null if doesn't exist).
+         */
         this.state = {
             measurements: [],
             newName: '',
@@ -21,7 +26,7 @@ class App extends Component {
     async componentDidMount() {
         console.log('did mount')
         const response = await measurementService.getAll()
-        await this.setState({ measurements: response })
+        this.setState({ measurements: response })
     }
 
     handleFieldChange = (event) => {
@@ -58,13 +63,9 @@ class App extends Component {
                     measurement.refHigh = refHigh
                 }
                 return measurement
-            }),
-            editMeasurementId: null,
-            newName: '',
-            newUnit: '',
-            newRefHigh: '',
-            newRefLow: ''
+            })
         })
+        this.clearFormFieldsFromState()
     }
 
     createMeasurement = async (name, unit, refLow, refHigh) => {
@@ -83,13 +84,9 @@ class App extends Component {
             id: response.data.id
         }
         this.setState({
-            measurements: this.state.measurements.concat(newMeasurement),
-            editMeasurementId: null,
-            newName: '',
-            newUnit: '',
-            newRefLow: '',
-            newRefHigh: ''
+            measurements: this.state.measurements.concat(newMeasurement)
         })
+        this.clearFormFieldsFromState()
     }
 
     deleteMeasurementClick = (id) => {
@@ -99,6 +96,7 @@ class App extends Component {
                 this.setState({
                     measurements: this.state.measurements.filter(measurement => measurement.id !== id)
                 })
+                this.clearFormFieldsFromState()
             }
         }
     }
@@ -115,23 +113,27 @@ class App extends Component {
             })
         }
     }
-    
+
     cancelEditClick = () => {
         return () => {
-            this.setState({
-                newName: '',
-                newUnit: '',
-                newRefLow: '',
-                newRefHigh: '',
-                editMeasurementId: null
-            })
+            this.clearFormFieldsFromState()
         }
+    }
+
+    clearFormFieldsFromState = () => {
+        this.setState({
+            newName: '',
+            newUnit: '',
+            newRefLow: '',
+            newRefHigh: '',
+            editMeasurementId: null
+        })
     }
 
     render() {
         return (
             <Container>
-                <Header as='h1' style={{marginTop: '1em'}} textAlign='center'>Labramittaukset</Header>
+                <Header as='h1' style={{ marginTop: '1em' }} textAlign='center'>Labramittaukset</Header>
                 <Divider />
                 <MeasurementForm
                     cancelEdit={this.cancelEditClick}
